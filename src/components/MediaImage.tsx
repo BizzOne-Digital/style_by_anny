@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Leaf } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { isExternalMedia, resolveMediaSrc } from "@/lib/media-url";
+import { resolveMediaSrc } from "@/lib/media-url";
 
 export interface MediaImageProps {
   src?: string;
@@ -54,7 +53,6 @@ export function MediaImage({
   fill = false,
   priority = false,
   className,
-  sizes,
   objectFit = "cover",
 }: MediaImageProps) {
   const [failed, setFailed] = useState(false);
@@ -64,7 +62,6 @@ export function MediaImage({
     return <ImageFallback alt={alt} fill={fill} className={className} />;
   }
 
-  const external = isExternalMedia(resolvedSrc);
   const objectFitClass =
     objectFit === "cover"
       ? "object-cover"
@@ -74,59 +71,31 @@ export function MediaImage({
           ? "object-fill"
           : "object-none";
 
-  // Local & external images: native img is most reliable (no optimizer issues)
-  if (external || resolvedSrc.startsWith("/images/")) {
-    if (fill) {
-      return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={resolvedSrc}
-          alt={alt}
-          className={cn("absolute inset-0 h-full w-full", objectFitClass, className)}
-          loading={priority ? "eager" : "lazy"}
-          onError={() => setFailed(true)}
-        />
-      );
-    }
+  // Native img is most reliable on Vercel (no optimizer issues with /api/media or static files)
+  if (fill) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={resolvedSrc}
         alt={alt}
-        width={width ?? 400}
-        height={height ?? 400}
-        className={cn(objectFitClass, className)}
+        className={cn("absolute inset-0 h-full w-full", objectFitClass, className)}
         loading={priority ? "eager" : "lazy"}
-        onError={() => setFailed(true)}
-      />
-    );
-  }
-
-  if (fill) {
-    return (
-      <Image
-        src={resolvedSrc}
-        alt={alt}
-        fill
-        priority={priority}
-        sizes={sizes ?? "(max-width: 768px) 100vw, 33vw"}
-        className={cn(objectFitClass, className)}
-        unoptimized={external}
+        decoding="async"
         onError={() => setFailed(true)}
       />
     );
   }
 
   return (
-    <Image
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={resolvedSrc}
       alt={alt}
       width={width ?? 400}
       height={height ?? 400}
-      priority={priority}
-      sizes={sizes}
       className={cn(objectFitClass, className)}
-      unoptimized={external}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
       onError={() => setFailed(true)}
     />
   );

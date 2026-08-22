@@ -1,5 +1,12 @@
 import { connectDB, isDBConfigured, tryConnectDB } from "@/lib/mongodb";
 import {
+  normalizeCategoryImage,
+  normalizePageSections,
+  normalizeProductImage,
+  normalizeService,
+  normalizeSiteLogo,
+} from "@/lib/normalize-media";
+import {
   STATIC_SETTINGS,
   getStaticCategories,
   getStaticFeaturedProducts,
@@ -10,6 +17,7 @@ import {
   getStaticServices,
 } from "@/lib/static-fallback";
 import type { SiteSettingsData } from "@/types";
+import type { ProductCardData } from "@/components/shop/ProductCard";
 import {
   Product,
   Category,
@@ -20,6 +28,23 @@ import {
   ContactSubmission,
   Page,
 } from "@/models";
+
+function normalizeSettings<T extends SiteSettingsData>(settings: T): T {
+  const logo = normalizeSiteLogo(settings.logo);
+  return logo ? { ...settings, logo } : settings;
+}
+
+function normalizeProducts<T>(products: T[]): T[] {
+  return products.map((product) =>
+    normalizeProductImage(product as Parameters<typeof normalizeProductImage>[0])
+  ) as T[];
+}
+
+function normalizeCategories<T extends { slug: string; image?: string }>(
+  categories: T[]
+): T[] {
+  return categories.map((category) => normalizeCategoryImage(category));
+}
 
 async function withDb<T>(fallback: T, query: () => Promise<T>): Promise<T> {
   if (!isDBConfigured()) return fallback;
@@ -39,18 +64,20 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
     if (!settings) {
       settings = await SiteSettings.create({});
     }
-    return JSON.parse(JSON.stringify(settings));
+    return normalizeSettings(JSON.parse(JSON.stringify(settings)));
   });
 }
 
-export async function getFeaturedProducts(limit = 8) {
+export async function getFeaturedProducts(limit = 8): Promise<ProductCardData[]> {
   return withDb(getStaticFeaturedProducts(limit), async () => {
     const products = await Product.find({ active: true, featured: true })
       .populate("category", "name slug")
       .sort({ displayOrder: 1, createdAt: -1 })
       .limit(limit)
       .lean();
-    return JSON.parse(JSON.stringify(products));
+    return normalizeProducts(
+      JSON.parse(JSON.stringify(products))
+    ) as ProductCardData[];
   });
 }
 
@@ -59,7 +86,7 @@ export async function getActiveCategories() {
     const categories = await Category.find({ active: true })
       .sort({ displayOrder: 1 })
       .lean();
-    return JSON.parse(JSON.stringify(categories));
+    return normalizeCategories(JSON.parse(JSON.stringify(categories)));
   });
 }
 
@@ -69,7 +96,13 @@ function getStaticProductsResult(filters: {
   onSale?: boolean;
   page?: number;
   limit?: number;
-}) {
+}): {
+  items: ProductCardData[];
+  total: number;
+  page: number;
+  totalPages: number;
+  hasMore: boolean;
+} {
   const page = filters.page || 1;
   const limit = filters.limit || 12;
   let items = getStaticProducts();
@@ -88,7 +121,7 @@ function getStaticProductsResult(filters: {
   const skip = (page - 1) * limit;
 
   return {
-    items: items.slice(skip, skip + limit),
+    items: items.slice(skip, skip + limit) as ProductCardData[],
     total,
     page,
     totalPages: Math.ceil(total / limit) || 1,
@@ -107,7 +140,13 @@ export async function getProducts(filters: {
   sort?: string;
   page?: number;
   limit?: number;
-}) {
+}): Promise<{
+  items: ProductCardData[];
+  total: number;
+  page: number;
+  totalPages: number;
+  hasMore: boolean;
+}> {
   return withDb(getStaticProductsResult(filters), async () => {
     const query: Record<string, unknown> = { active: true };
     const page = filters.page || 1;
@@ -168,7 +207,9 @@ export async function getProducts(filters: {
     ]);
 
     return {
-      items: JSON.parse(JSON.stringify(products)),
+      items: normalizeProducts(
+        JSON.parse(JSON.stringify(products))
+      ) as ProductCardData[],
       total,
       page,
       totalPages: Math.ceil(total / limit),
@@ -182,7 +223,8 @@ export async function getProductBySlug(slug: string) {
     const product = await Product.findOne({ slug, active: true })
       .populate("category", "name slug")
       .lean();
-    return product ? JSON.parse(JSON.stringify(product)) : null;
+    if (!product) return null;
+    return normalizeProductImage(JSON.parse(JSON.stringify(product)));
   });
 }
 
@@ -199,7 +241,9 @@ export async function getRelatedProducts(
     })
       .limit(limit)
       .lean();
-    return JSON.parse(JSON.stringify(products));
+    return normalizeProducts(
+      JSON.parse(JSON.stringify(products))
+    ) as ProductCardData[];
   });
 }
 
@@ -213,7 +257,12 @@ export async function getPageBySlug(slug: string) {
 
   return withDb(staticPage, async () => {
     const page = await Page.findOne({ slug }).lean();
-    return page ? JSON.parse(JSON.stringify(page)) : staticPage;
+    if (!page) return staticPage;
+    const parsed = JSON.parse(JSON.stringify(page));
+    if (Array.isArray(parsed.sections)) {
+      parsed.sections = normalizePageSections(slug, parsed.sections);
+    }
+    return parsed;
   });
 }
 
@@ -335,7 +384,7 @@ export async function getActiveServices() {
     const services = await Service.find({ active: true })
       .sort({ displayOrder: 1 })
       .lean();
-    return JSON.parse(JSON.stringify(services));
+    return JSON.parse(JSON.stringify(services)).map(normalizeService);
   });
 }
 
@@ -363,7 +412,8 @@ export async function getCategoryBySlug(slug: string) {
     getStaticCategories().find((c) => c.slug === slug) ?? null,
     async () => {
       const category = await Category.findOne({ slug, active: true }).lean();
-      return category ? JSON.parse(JSON.stringify(category)) : null;
+      if (!category) return null;
+      return normalizeCategoryImage(JSON.parse(JSON.stringify(category)));
     }
   );
 }

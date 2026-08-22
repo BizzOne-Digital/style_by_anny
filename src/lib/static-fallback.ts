@@ -64,7 +64,9 @@ export function getStaticProducts() {
         },
       ],
       category: {
-        name: DEMO_CATEGORIES.find((c) => c.slug === demo.categorySlug)?.name,
+        name:
+          DEMO_CATEGORIES.find((c) => c.slug === demo.categorySlug)?.name ??
+          demo.categorySlug,
         slug: demo.categorySlug,
       },
       stockStatus: "in_stock",
