@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   return buildMetadata(settings, {
     title: "Testimonials",
-    description: "Read what our clients say about Plant & Style by Anne.",
+    description: "Read what our customers say about Plant Style by Anne.",
     path: "/testimonials",
   });
 }

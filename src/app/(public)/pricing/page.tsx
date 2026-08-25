@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   return buildMetadata(settings, {
     title: "Pricing",
-    description: "View our pricing plans for plant styling and design services.",
+    description: "View our pricing for hoya care consultations and plant services.",
     path: "/pricing",
   });
 }
@@ -26,7 +26,7 @@ export default async function PricingPage() {
       <PageHeader
         eyebrow="Plans"
         title="Pricing"
-        subtitle="Transparent pricing for our styling and design services."
+        subtitle="Transparent pricing for plant care and consultation services."
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {plans.length > 0 ? (

@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 52" fill="none" aria-label="Plant &amp; Style by Anne">
-  <path d="M20 40C20 40 10 32 10 22C10 14 16 8 22 8C26 8 29 10 30 13C31 10 34 8 38 8C44 8 50 14 50 22C50 32 40 40 40 40" stroke="#3D2461" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M30 13V40" stroke="#3D2461" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M24 24C26 20 30 18 30 18C30 18 34 20 36 24" stroke="#C4A574" stroke-width="2" stroke-linecap="round"/>
-  <text x="62" y="24" font-family="Georgia, 'Times New Roman', serif" font-size="17" font-weight="600" fill="#3D2461">Plant &amp; Style</text>
-  <text x="62" y="42" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5A5568" letter-spacing="0.1em">by Anne</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 56" fill="none" aria-label="Plant Style by Anne">
+  <circle cx="28" cy="28" r="26" fill="#3d2461" fill-opacity="0.08"/>
+  <path d="M28 44C28 44 14 34 14 22C14 12 20 6 28 6C32 6 35.5 8 37 11C38.5 8 42 6 46 6C54 6 60 12 60 22C60 34 46 44 46 44" stroke="#3d2461" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M37 11V44" stroke="#3d2461" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M28 18C30 14 37 12 37 12C37 12 44 14 46 18" stroke="#5c8a3d" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="37" cy="8" r="2.5" fill="#5c8a3d"/>
+  <text x="72" y="26" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="600" fill="#3d2461" letter-spacing="-0.02em">Plant Style</text>
+  <text x="72" y="44" font-family="Georgia, 'Times New Roman', serif" font-size="13" font-style="italic" fill="#5c8a3d" letter-spacing="0.12em">by Anne</text>
 </svg>

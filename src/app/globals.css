@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
-/* ─── Brand palette — high contrast, elegant purple ─── */
+/* ─── Brand palette — clean white, plant green accents ─── */
 @theme {
   --color-primary: #3d2461;
   --color-primary-dark: #231338;
   --color-primary-light: #5c3d8a;
-  --color-accent: #ede6f4;
-  --color-accent-warm: #b8956b;
-  --color-background: #f7f5f2;
+  --color-accent: #f4f7f2;
+  --color-accent-warm: #5c8a3d;
+  --color-background: #ffffff;
   --color-surface: #ffffff;
   --color-text: #141018;
   --color-text-muted: #4a4458;

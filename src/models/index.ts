@@ -347,10 +347,10 @@ export const Coupon = models.Coupon || model("Coupon", CouponSchema);
 
 const SiteSettingsSchema = new Schema(
   {
-    brandName: { type: String, default: "Plant & Style by Anne" },
+    brandName: { type: String, default: "Plant Style by Anne" },
     tagline: {
       type: String,
-      default: "Incorporating plants and interior design at home",
+      default: "Beautiful hoyas and curated plants for your home",
     },
     email: { type: String, default: "plantstyleinc@gmail.com" },
     phone: { type: String, default: "(403) 978-8177" },
@@ -360,16 +360,16 @@ const SiteSettingsSchema = new Schema(
     lowStockThreshold: { type: Number, default: 5 },
     defaultSeoTitle: {
       type: String,
-      default: "Plant & Style by Anne | Plants & Interior Design",
+      default: "Plant Style by Anne | Hoyas & Indoor Plants",
     },
     defaultSeoDescription: {
       type: String,
       default:
-        "Discover beautifully curated plants and styling services that bring nature into your home with elegance.",
+        "Discover beautifully curated hoyas and indoor plants, shipped with care across Canada.",
     },
     footerText: {
       type: String,
-      default: "Bringing plants and interior design together for over 6 years.",
+      default: "Sharing a love of hoyas and plants for over 6 years.",
     },
     socialLinks: [
       {

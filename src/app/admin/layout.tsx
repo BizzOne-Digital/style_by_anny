@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AdminLayoutClient } from "@/components/admin/AdminLayoutClient";
 
 export const metadata: Metadata = {
-  title: "Admin | Plant & Style by Anne",
+  title: "Admin | Plant Style by Anne",
   robots: { index: false, follow: false },
 };
 

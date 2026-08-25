@@ -35,7 +35,7 @@ export function CategoryGrid({
           subtitle={subtitle}
         />
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2">
           {categories.map((category) => (
             <Link
               key={category._id}

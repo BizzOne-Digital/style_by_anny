@@ -32,13 +32,13 @@ export default async function AboutPage() {
         <PageHeader
           eyebrow="Our Story"
           title="About Anne"
-          subtitle="Bringing plants and interior design together for over 6 years."
+          subtitle="Sharing a love of hoyas and plants for over 6 years."
         />
         <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="prose-content">
             <p>
-              Plant & Style by Anne has been in the business for over 6 years.
-              Anne has incorporated her love for interior design with her love of
+              Plant Style by Anne has been sharing a love of plants for over 6
+              years. Anne specializes in hoyas and carefully selected indoor
               plants.
             </p>
           </div>
@@ -60,7 +60,7 @@ export default async function AboutPage() {
         title={page.title}
         subtitle={
           visibleSections[0]?.subtitle ||
-          "Bringing plants and interior design together."
+          "Sharing a love of hoyas and plants."
         }
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

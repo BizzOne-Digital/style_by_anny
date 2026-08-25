@@ -86,7 +86,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
           <Link href="/admin" className="flex items-center gap-2">
             <Leaf className="h-7 w-7" />
             <div>
-              <p className="text-sm font-bold leading-tight">Plant & Style</p>
+              <p className="text-sm font-bold leading-tight">Plant Style</p>
               <p className="text-xs text-white/70">by Anne</p>
             </div>
           </Link>

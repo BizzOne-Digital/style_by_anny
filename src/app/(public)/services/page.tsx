@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata(settings, {
     title: "Services",
     description:
-      "Professional plant styling, interior design consultation, and plant care services.",
+      "Hoya care consultation, plant selection guidance, and ongoing plant care support.",
     path: "/services",
   });
 }
@@ -24,7 +24,7 @@ export default async function ServicesPage() {
       <PageHeader
         eyebrow="What We Offer"
         title="Our Services"
-        subtitle="From plant styling to full interior design consultations, we help you create spaces that feel alive."
+        subtitle="Expert guidance on hoyas and plant care — from selection to ongoing support."
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {services.length > 0 ? (

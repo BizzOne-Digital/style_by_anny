@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
           </div>
           <h1 className="text-2xl font-bold text-[#2D2D2D]">Admin Login</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Plant & Style by Anne
+            Plant Style by Anne
           </p>
         </div>
 

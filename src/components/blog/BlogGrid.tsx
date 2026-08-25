@@ -21,7 +21,7 @@ export function BlogGrid({
   totalPages = 1,
   basePath = "/blog",
   className,
-  emptyMessage = "Check back soon for plant care tips and styling inspiration.",
+  emptyMessage = "Check back soon for hoya care tips and plant advice.",
 }: BlogGridProps) {
   if (posts.length === 0) {
     return (

@@ -15,7 +15,7 @@ export interface NewsletterSectionProps {
 
 export function NewsletterSection({
   title = "Join Our Community",
-  subtitle = "Get plant care tips, styling inspiration, and exclusive offers delivered to your inbox.",
+  subtitle = "Get hoya care tips, new arrivals, and exclusive offers delivered to your inbox.",
   className,
 }: NewsletterSectionProps) {
   const [email, setEmail] = useState("");

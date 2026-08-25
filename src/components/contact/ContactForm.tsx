@@ -17,7 +17,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const INQUIRY_OPTIONS = [
   { value: "general", label: "General Inquiry" },
   { value: "order", label: "Order Question" },
-  { value: "styling", label: "Styling Services" },
+  { value: "plant-care", label: "Plant Care" },
   { value: "wholesale", label: "Wholesale" },
   { value: "other", label: "Other" },
 ];

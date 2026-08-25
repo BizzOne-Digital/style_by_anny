@@ -1,8 +1,8 @@
 export const BRAND = {
-  name: "Plant & Style by Anne",
+  name: "Plant Style by Anne",
   email: "plantstyleinc@gmail.com",
   phone: "(403) 978-8177",
-  tagline: "Incorporating plants and interior design at home",
+  tagline: "Beautiful hoyas and curated plants for your home",
 } as const;
 
 export const ORDER_STATUSES = [

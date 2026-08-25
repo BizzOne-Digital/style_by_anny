@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   return buildMetadata(settings, {
     title: "Blog",
-    description: "Plant care tips, styling inspiration, and home décor ideas.",
+    description: "Hoya care tips, plant stories, and growing advice.",
     path: "/blog",
   });
 }
@@ -28,7 +28,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <PageHeader
         eyebrow="Journal"
         title="Blog"
-        subtitle="Plant care tips, styling inspiration, and stories from our studio."
+        subtitle="Hoya care tips, plant stories, and advice from Anne."
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <BlogGrid posts={items} currentPage={page} totalPages={totalPages} />

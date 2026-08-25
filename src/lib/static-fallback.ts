@@ -19,9 +19,9 @@ export const STATIC_SETTINGS: SiteSettingsData = {
   phone: BRAND.phone,
   currency: "CAD",
   lowStockThreshold: 5,
-  defaultSeoTitle: `${BRAND.name} | Plants & Interior Design`,
+  defaultSeoTitle: `${BRAND.name} | Hoyas & Indoor Plants`,
   defaultSeoDescription: BRAND.tagline,
-  footerText: "Bringing plants and interior design together for over 6 years.",
+  footerText: "Sharing a love of hoyas and plants for over 6 years.",
   socialLinks: [],
   logo: TEMPORARY_IMAGES.logo.url,
 };
@@ -47,6 +47,7 @@ export function getStaticCategories() {
 export function getStaticProducts() {
   return DEMO_PRODUCTS.map((demo) => {
     const imageData = TEMPORARY_IMAGES.products[demo.imageKey];
+    const fallback = TEMPORARY_IMAGES.products["hoya-carnosa"];
     return {
       _id: demo.slug,
       name: demo.name,
@@ -58,8 +59,8 @@ export function getStaticProducts() {
       compareAtPrice: "salePrice" in demo ? demo.price : undefined,
       images: [
         {
-          mediaId: imageData.url,
-          alt: imageData.alt,
+          mediaId: imageData?.url ?? fallback.url,
+          alt: imageData?.alt ?? demo.name,
           order: 0,
         },
       ],
@@ -106,28 +107,28 @@ export function getStaticProductBySlug(slug: string) {
 export function getStaticServices() {
   return [
     {
-      _id: "styling",
-      title: "Plant Styling Consultation",
+      _id: "hoya-care",
+      title: "Hoya Care Consultation",
       description:
-        "Personalized guidance to select and place plants that complement your interior.",
+        "Personalized guidance on watering, light, and care for your hoya collection.",
       image: TEMPORARY_IMAGES.services.styling.url,
       ctaText: "Learn More",
       ctaUrl: "/contact",
     },
     {
-      _id: "design",
-      title: "Interior Plant Design",
+      _id: "selection",
+      title: "Plant Selection Guidance",
       description:
-        "Room-by-room styling that integrates plants into your home's design story.",
+        "Help choosing the right hoyas and plants for your home and experience level.",
       image: TEMPORARY_IMAGES.services.design.url,
       ctaText: "Learn More",
       ctaUrl: "/contact",
     },
     {
       _id: "care",
-      title: "Plant Care Guidance",
+      title: "Plant Care Support",
       description:
-        "Support for new and experienced plant owners — care plans tailored to your space.",
+        "Ongoing support for new and experienced plant owners — tailored to your plants.",
       image: TEMPORARY_IMAGES.services.care.url,
       ctaText: "Learn More",
       ctaUrl: "/contact",

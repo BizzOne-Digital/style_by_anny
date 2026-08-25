@@ -9,7 +9,8 @@ interface FooterProps {
 const FOOTER_LINKS = {
   shop: [
     { href: "/shop", label: "All Plants" },
-    { href: "/pricing", label: "Pricing" },
+    { href: "/shop?category=hoyas", label: "Hoyas" },
+    { href: "/shop?category=others", label: "Others" },
     { href: "/cart", label: "Cart" },
     { href: "/order-lookup", label: "Order Lookup" },
   ],
@@ -22,7 +23,9 @@ const FOOTER_LINKS = {
   support: [
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
-    { href: "/search", label: "Search" },
+    { href: "/shipping-policy", label: "Shipping Policy" },
+    { href: "/return-policy", label: "Return Policy" },
+    { href: "/payment-methods", label: "Payment Methods" },
   ],
 };
 
@@ -32,7 +35,7 @@ export function Footer({ settings }: FooterProps) {
     .sort((a, b) => a.order - b.order);
 
   return (
-    <footer className="mt-auto bg-footer text-white">
+    <footer className="mt-auto border-t border-border bg-footer text-white">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
@@ -107,11 +110,22 @@ export function Footer({ settings }: FooterProps) {
           </div>
         )}
 
-        <div className="mt-8 border-t border-white/10 pt-8 text-center text-sm text-white/50">
+        <div className="mt-8 flex flex-col items-center gap-3 border-t border-white/10 pt-8 text-center text-sm text-white/50 sm:flex-row sm:justify-between">
           <p>
             &copy; {new Date().getFullYear()} {settings.brandName}.{" "}
             {settings.footerText}
           </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/shipping-policy" className="hover:text-white">
+              Shipping
+            </Link>
+            <Link href="/return-policy" className="hover:text-white">
+              Returns
+            </Link>
+            <Link href="/payment-methods" className="hover:text-white">
+              Payment
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

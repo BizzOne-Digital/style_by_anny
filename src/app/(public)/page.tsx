@@ -62,14 +62,14 @@ export default async function HomePage() {
         heading={
           hero?.title ||
           settings.tagline ||
-          "Incorporating plants and interior design at home"
+          "Beautiful hoyas and plants for your home"
         }
         subtitle={hero?.subtitle || settings.tagline}
         primaryCta={{
           text: hero?.ctaText || "Shop Plants",
           href: hero?.ctaUrl || "/shop",
         }}
-        secondaryCta={{ text: "Explore Our Services", href: "/services" }}
+        secondaryCta={{ text: "Shop Hoyas", href: "/shop?category=hoyas" }}
         backgroundImage={hero?.image}
         imageAlt={getSectionImageAlt(hero || { key: "", type: "" })}
         className="mx-0"

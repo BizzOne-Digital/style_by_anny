@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   return buildMetadata(settings, {
     title: "Shop",
-    description: "Browse our curated collection of plants and home styling pieces.",
+    description: "Browse our curated collection of hoyas and indoor plants.",
     path: "/shop",
   });
 }
@@ -53,7 +53,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       <PageHeader
         eyebrow="Collection"
         title="Shop Plants"
-        subtitle="Curated plants and styling pieces to bring nature into your home."
+        subtitle="Hand-selected hoyas and plants, grown with care."
       />
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-4">

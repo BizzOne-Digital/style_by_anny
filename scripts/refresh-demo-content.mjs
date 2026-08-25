@@ -1,5 +1,5 @@
 /**
- * Updates MongoDB with local demo image paths.
+ * Updates MongoDB with local demo image paths and new category structure.
  * Run: npm run refresh:demo
  */
 import { readFileSync, existsSync } from "fs";
@@ -33,24 +33,20 @@ const IMAGES = {
   about2: `${DEMO}/about-2.jpg`,
   about3: `${DEMO}/about-3.jpg`,
   categories: {
-    "indoor-plants": `${DEMO}/category-indoor.jpg`,
-    "beginner-friendly-plants": `${DEMO}/category-beginner.jpg`,
-    "statement-plants": `${DEMO}/category-statement.jpg`,
-    "planters-pots": `${DEMO}/category-planters.jpg`,
-    "plant-care": `${DEMO}/category-care.jpg`,
-    "home-plant-decor": `${DEMO}/category-decor.jpg`,
+    hoyas: `${DEMO}/category-indoor.jpg`,
+    others: `${DEMO}/category-beginner.jpg`,
   },
   products: {
-    "monstera-deliciosa": `${DEMO}/product-1.jpg`,
-    "snake-plant": `${DEMO}/product-2.jpg`,
-    "golden-pothos": `${DEMO}/product-3.jpg`,
-    "fiddle-leaf-fig": `${DEMO}/product-4.jpg`,
-    "zz-plant": `${DEMO}/product-5.jpg`,
-    "peace-lily": `${DEMO}/product-6.jpg`,
-    "rubber-plant": `${DEMO}/product-7.jpg`,
-    "heartleaf-philodendron": `${DEMO}/product-8.jpg`,
-    "minimalist-ceramic-planter": `${DEMO}/product-9.jpg`,
-    "terracotta-planter-set": `${DEMO}/product-10.jpg`,
+    "hoya-carnosa": `${DEMO}/product-1.jpg`,
+    "hoya-kerrii": `${DEMO}/product-2.jpg`,
+    "hoya-australis": `${DEMO}/product-3.jpg`,
+    "hoya-linearis": `${DEMO}/product-4.jpg`,
+    "hoya-obovata": `${DEMO}/product-5.jpg`,
+    "hoya-pubicalyx": `${DEMO}/product-6.jpg`,
+    "hoya-wayetii": `${DEMO}/product-7.jpg`,
+    "hoya-compacta": `${DEMO}/product-8.jpg`,
+    "monstera-deliciosa": `${DEMO}/product-9.jpg`,
+    "snake-plant": `${DEMO}/product-10.jpg`,
   },
 };
 
@@ -116,9 +112,21 @@ if (about) {
   await Page.updateOne({ slug: "about" }, { $set: { sections } });
 }
 
-await SiteSettings.updateOne({}, { $set: { logo: "/logo.svg" } }, { upsert: true });
+await SiteSettings.updateOne(
+  {},
+  {
+    $set: {
+      logo: "/logo.svg",
+      brandName: "Plant Style by Anne",
+      tagline: "Beautiful hoyas and curated plants for your home",
+      defaultSeoTitle: "Plant Style by Anne | Hoyas & Indoor Plants",
+      footerText: "Sharing a love of hoyas and plants for over 6 years.",
+    },
+  },
+  { upsert: true }
+);
 
-console.log("All images updated to local /images/demo/ paths.");
+console.log("Demo content updated: categories, products, images, and brand settings.");
 console.log("Refresh your browser with Ctrl+Shift+R");
 
 await mongoose.disconnect();

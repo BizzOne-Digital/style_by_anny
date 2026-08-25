@@ -67,6 +67,11 @@ export async function seedDemoContent(
       categoriesUpdated++;
     }
   }
+  const activeCategorySlugs = DEMO_CATEGORIES.map((c) => c.slug);
+  await Category.updateMany(
+    { slug: { $nin: activeCategorySlugs } },
+    { $set: { active: false } }
+  );
   results.categories = `${categoriesUpdated} upserted`;
 
   // Build category slug → id map
@@ -110,7 +115,7 @@ export async function seedDemoContent(
       lightRequirements:
         "lightRequirements" in demo ? demo.lightRequirements : "",
       plantSize: "plantSize" in demo ? demo.plantSize : "",
-      seoTitle: `${demo.name} | Plant & Style by Anne`,
+      seoTitle: `${demo.name} | Plant Style by Anne`,
       seoDescription: demo.shortDescription,
     };
 
@@ -136,9 +141,9 @@ export async function seedDemoContent(
       {
         $set: {
           sections: homeSections,
-          seoTitle: "Plant & Style by Anne | Plants & Interior Design",
+          seoTitle: "Plant Style by Anne | Hoyas & Indoor Plants",
           seoDescription:
-            "Discover beautifully curated plants and styling services that bring nature into your home with elegance.",
+            "Discover beautifully curated hoyas and indoor plants, shipped with care across Canada.",
         },
       }
     );
@@ -147,9 +152,9 @@ export async function seedDemoContent(
     await Page.create({
       slug: "home",
       title: "Home",
-      seoTitle: "Plant & Style by Anne | Plants & Interior Design",
+      seoTitle: "Plant Style by Anne | Hoyas & Indoor Plants",
       seoDescription:
-        "Discover beautifully curated plants and styling services that bring nature into your home with elegance.",
+        "Discover beautifully curated hoyas and indoor plants, shipped with care across Canada.",
       sections: homeSections,
     });
     results.homepage = "created";
@@ -164,7 +169,7 @@ export async function seedDemoContent(
       {
         $set: {
           title: "About",
-          seoTitle: "About | Plant & Style by Anne",
+          seoTitle: "About | Plant Style by Anne",
           sections: aboutSections,
         },
       }
@@ -174,7 +179,7 @@ export async function seedDemoContent(
     await Page.create({
       slug: "about",
       title: "About",
-      seoTitle: "About | Plant & Style by Anne",
+      seoTitle: "About | Plant Style by Anne",
       sections: aboutSections,
     });
     results.aboutPage = "created";
@@ -216,12 +221,22 @@ export async function seedDemoContent(
   if (settings) {
     await SiteSettings.updateOne(
       { _id: settings._id },
-      { $set: { logo: TEMPORARY_IMAGES.logo.url } }
+      {
+        $set: {
+          logo: TEMPORARY_IMAGES.logo.url,
+          brandName: "Plant Style by Anne",
+          tagline: "Beautiful hoyas and curated plants for your home",
+          defaultSeoTitle: "Plant Style by Anne | Hoyas & Indoor Plants",
+          footerText: "Sharing a love of hoyas and plants for over 6 years.",
+        },
+      }
     );
     results.settings = "logo updated";
   } else {
     await SiteSettings.create({
       logo: TEMPORARY_IMAGES.logo.url,
+      brandName: "Plant Style by Anne",
+      tagline: "Beautiful hoyas and curated plants for your home",
     });
     results.settings = "created with logo";
   }

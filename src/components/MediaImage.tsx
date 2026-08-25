@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Leaf } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { resolveMediaSrc } from "@/lib/media-url";
@@ -57,6 +57,10 @@ export function MediaImage({
 }: MediaImageProps) {
   const [failed, setFailed] = useState(false);
   const resolvedSrc = resolveMediaSrc(src);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [src, resolvedSrc]);
 
   if (!resolvedSrc || failed) {
     return <ImageFallback alt={alt} fill={fill} className={className} />;

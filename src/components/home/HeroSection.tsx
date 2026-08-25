@@ -19,46 +19,24 @@ export function HeroSection({
   primaryCta,
   secondaryCta,
   backgroundImage,
-  imageAlt = "Hero background",
+  imageAlt = "Featured hoya plant",
   className,
 }: HeroSectionProps) {
   return (
     <section
       className={cn(
-        "relative min-h-[520px] overflow-hidden bg-primary text-white lg:min-h-[600px]",
+        "relative overflow-hidden border-b border-border bg-white",
         className
       )}
     >
-      {backgroundImage ? (
-        <div className="absolute inset-0">
-          <MediaImage
-            src={backgroundImage}
-            alt={imageAlt}
-            fill
-            priority
-            sizes="100vw"
-            className="scale-105 object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/95 via-primary/85 to-primary/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 via-transparent to-transparent" />
-        </div>
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark via-primary to-primary-light opacity-100" />
-      )}
-
-      {/* Decorative accent */}
-      <div className="pointer-events-none absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-accent-warm/10 blur-3xl" />
-
-      <div className="relative mx-auto flex min-h-[520px] max-w-7xl items-center px-6 py-20 sm:px-8 lg:min-h-[600px] lg:py-28">
-        <div className="max-w-2xl animate-fade-up">
-          <p className="section-eyebrow section-eyebrow-light mb-5">
-            Plant &amp; Interior Design
-          </p>
-          <h1 className="text-on-dark font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:py-24">
+        <div className="animate-fade-up">
+          <p className="section-eyebrow mb-5">Hoyas &amp; Indoor Plants</p>
+          <h1 className="font-heading text-4xl font-semibold leading-[1.1] tracking-tight text-text sm:text-5xl lg:text-6xl">
             {heading}
           </h1>
           {subtitle && (
-            <p className="text-on-dark mt-6 max-w-xl text-base leading-relaxed sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
               {subtitle}
             </p>
           )}
@@ -67,27 +45,36 @@ export function HeroSection({
             <div className="mt-9 flex flex-wrap gap-3">
               {primaryCta && (
                 <Link href={primaryCta.href}>
-                  <Button
-                    size="lg"
-                    className="bg-white text-primary shadow-elevated hover:bg-accent hover:text-primary-dark"
-                  >
-                    {primaryCta.text}
-                  </Button>
+                  <Button size="lg">{primaryCta.text}</Button>
                 </Link>
               )}
               {secondaryCta && (
                 <Link href={secondaryCta.href}>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:border-white hover:bg-white/20"
-                  >
+                  <Button variant="outline" size="lg">
                     {secondaryCta.text}
                   </Button>
                 </Link>
               )}
             </div>
           )}
+        </div>
+
+        <div className="relative">
+          <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-accent to-primary/5" />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-accent shadow-elevated sm:aspect-square lg:aspect-[4/5]">
+            {backgroundImage ? (
+              <MediaImage
+                src={backgroundImage}
+                alt={imageAlt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent-warm/10" />
+            )}
+          </div>
         </div>
       </div>
     </section>

@@ -37,6 +37,7 @@ function rewriteMediaField(src?: string | null): string | undefined {
 
 export function normalizeProductImage<T extends {
   slug: string;
+  name?: string;
   images?: { mediaId: string; alt?: string; order?: number }[];
 }>(product: T): T {
   const demo = DEMO_PRODUCTS.find((d) => d.slug === product.slug);
@@ -44,25 +45,35 @@ export function normalizeProductImage<T extends {
     ? TEMPORARY_IMAGES.products[demo.imageKey]
     : undefined;
 
-  const images = product.images ?? [];
-  const primary = images[0];
-
-  if (local && (!primary || needsMediaRewrite(primary.mediaId))) {
+  if (local) {
     return {
       ...product,
       images: [{ mediaId: local.url, alt: local.alt, order: 0 }],
     };
   }
 
-  if (images.length === 0) return product;
+  const images = product.images ?? [];
+  const primary = images[0];
+
+  if (!primary || needsMediaRewrite(primary.mediaId)) {
+    const fallback = TEMPORARY_IMAGES.products["hoya-carnosa"];
+    return {
+      ...product,
+      images: [
+        {
+          mediaId: fallback.url,
+          alt: primary?.alt || product.name || "Plant",
+          order: 0,
+        },
+      ],
+    };
+  }
 
   return {
     ...product,
-    images: images.map((img, index) => ({
+    images: images.map((img) => ({
       ...img,
-      mediaId:
-        rewriteMediaField(img.mediaId) ??
-        (local && index === 0 ? local.url : img.mediaId),
+      mediaId: rewriteMediaField(img.mediaId) ?? img.mediaId,
     })),
   };
 }
@@ -75,7 +86,7 @@ export function normalizeCategoryImage<T extends { slug: string; image?: string 
       category.slug as keyof typeof TEMPORARY_IMAGES.categories
     ];
 
-  if (local && needsMediaRewrite(category.image)) {
+  if (local) {
     return { ...category, image: local.url };
   }
 
@@ -89,7 +100,7 @@ export function normalizeServiceImage<T extends {
 }>(service: T, imageKey?: keyof typeof TEMPORARY_IMAGES.services): T {
   const local = imageKey ? TEMPORARY_IMAGES.services[imageKey] : undefined;
 
-  if (local && needsMediaRewrite(service.image)) {
+  if (local) {
     return { ...service, image: local.url };
   }
 
@@ -101,9 +112,9 @@ const SERVICE_IMAGE_KEYS: Record<
   string,
   keyof typeof TEMPORARY_IMAGES.services
 > = {
-  "plant styling consultation": "styling",
-  "interior plant design": "design",
-  "plant care guidance": "care",
+  "hoya care consultation": "styling",
+  "plant selection guidance": "design",
+  "plant care support": "care",
 };
 
 export function normalizeService<T extends { title: string; image?: string }>(
@@ -128,12 +139,7 @@ export function normalizePageSections(
 
   return sections.map((section) => {
     const fallback = defaultByKey.get(section.key);
-    if (!fallback?.image) {
-      const rewritten = rewriteMediaField(section.image);
-      return rewritten ? { ...section, image: rewritten } : section;
-    }
-
-    if (needsMediaRewrite(section.image)) {
+    if (fallback?.image) {
       return { ...section, image: fallback.image };
     }
 
